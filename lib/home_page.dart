@@ -17,26 +17,47 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.all(10),
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: categoria.length,
-            itemBuilder: (_, index) {
-              return Column(
-                children: [
-                  Text(
-                    categoria[index],
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                pinned: true,
+                expandedHeight: 200,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Text("App Bar ListView Aninhado"),
+                  background: Image.asset(
+                    'imagens/imagem.jpg',
+                    fit: BoxFit.cover,
                   ),
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate([
                   ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                      itemCount: items.length,
-                      itemBuilder: (_, index) {
-                        return ListTile(title: Text(items[index]));
-                      })
-                ],
-              );
-            },
+                    itemCount: categoria.length,
+                    itemBuilder: (_, index) {
+                      return Column(
+                        children: [
+                          Text(
+                            categoria[index],
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: items.length,
+                              itemBuilder: (_, index) {
+                                return ListTile(title: Text(items[index]));
+                              })
+                        ],
+                      );
+                    },
+                  ),
+                ]),
+              ),
+            ],
           ),
         ),
       ),
